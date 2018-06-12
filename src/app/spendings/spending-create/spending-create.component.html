@@ -1,0 +1,30 @@
+<mat-card>
+  <form (submit)="onAddSpending(spendingForm)" #spendingForm="ngForm">
+    <mat-form-field>
+      <input
+        matInput
+        type="number"
+        name="value"
+        ngModel
+        required
+        placeholder="Spending Value"
+        #value="ngModel">
+      <mat-error *ngIf="value.invalid">Please enter a spending value.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        matInput
+        rows="4"
+        name="description"
+        ngModel
+        required
+        placeholder="Spending Description"
+        #description="ngModel"></textarea>
+      <mat-error *ngIf="description.invalid">Please enter a brief description of the spending.</mat-error>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color = "primary"
+      type="submit">Add Spending</button>
+  </form>
+</mat-card>
