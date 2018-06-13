@@ -17,7 +17,7 @@ export class SpendingListComponent implements OnInit, OnDestroy {
   constructor(public spendingsService: SpendingsService) {}
 
   ngOnInit() {
-    this.spendings = this.spendingsService.getSpendings();
+    this.spendingsService.getSpendings();
     this.spendingsSub = this.spendingsService.getSpendingUpdateListener()
       .subscribe((spendings: Spending[]) => {
         this.spendings = spendings;
