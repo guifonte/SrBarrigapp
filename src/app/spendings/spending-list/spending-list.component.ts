@@ -24,6 +24,10 @@ export class SpendingListComponent implements OnInit, OnDestroy {
       });
   }
 
+  onDelete(spendingId: string) {
+    this.spendingsService.deleteSpending(spendingId);
+  }
+
   ngOnDestroy() {
     this.spendingsSub.unsubscribe();
   }

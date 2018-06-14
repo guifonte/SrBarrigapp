@@ -9,6 +9,7 @@
         required
         placeholder="Spending Value"
         #value="ngModel">
+        <span matPrefix>R$&nbsp;</span>
       <mat-error *ngIf="value.invalid">Please enter a spending value.</mat-error>
     </mat-form-field>
     <mat-form-field>

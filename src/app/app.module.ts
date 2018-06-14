@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 import { SpendingCreateComponent } from './spendings/spending-create/spending-create.component';
 import { HeaderComponent } from './header/header.component';
 import { SpendingListComponent } from './spendings/spending-list/spending-list.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { SpendingListComponent } from './spendings/spending-list/spending-list.c
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
     MatInputModule,
