@@ -4,14 +4,9 @@ import { SpendingListComponent } from './spendings/spending-list/spending-list.c
 import { SpendingCreateComponent } from './spendings/spending-create/spending-create.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: SpendingListComponent
-  },
-  {
-    path: 'create',
-    component: SpendingCreateComponent
-  }
+  { path: '', component: SpendingListComponent },
+  { path: 'create', component: SpendingCreateComponent },
+  { path: 'edit/:spendingId', component: SpendingCreateComponent }
 ];
 
 @NgModule({

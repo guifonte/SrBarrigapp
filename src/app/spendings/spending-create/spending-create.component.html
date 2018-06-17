@@ -1,11 +1,12 @@
 <mat-card>
-  <form (submit)="onAddSpending(spendingForm)" #spendingForm="ngForm">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form (submit)="onSaveSpending(spendingForm)" #spendingForm="ngForm" *ngIf="!isLoading">
     <mat-form-field>
       <input
         matInput
         type="number"
         name="value"
-        ngModel
+        [ngModel]="spending?.value"
         required
         placeholder="Spending Value"
         #value="ngModel">
@@ -17,7 +18,7 @@
         matInput
         rows="4"
         name="description"
-        ngModel
+        [ngModel]="spending?.description"
         required
         placeholder="Spending Description"
         #description="ngModel"></textarea>

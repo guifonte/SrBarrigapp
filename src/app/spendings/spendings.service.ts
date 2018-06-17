@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { Spending } from './spending.model';
 
@@ -10,7 +11,7 @@ export class SpendingsService {
   private spendings: Spending[] = [];
   private spendingsUpdated = new Subject<Spending[]>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   getSpendings() {
     this.http
@@ -38,6 +39,17 @@ export class SpendingsService {
     return this.spendingsUpdated.asObservable();
   }
 
+  getSpending(id: string) {
+    return this.http.get<{_id: string,
+                          value: number,
+                          description: string,
+                          date: Date,
+                          payer: string
+                        }>(
+      'http://localhost:3000/api/spendings/' + id
+    );
+  }
+
   addSpending(value: number, description: string, payer: string) {
     const spending: Spending = { id: null, value: value, description: description, date: new Date, payer: payer};
     this.http.post<{ message: string, spendingId: string }>('http://localhost:3000/api/spendings', spending)
@@ -46,6 +58,21 @@ export class SpendingsService {
         spending.id = id;
         this.spendings.push(spending);
         this.spendingsUpdated.next([...this.spendings]);
+        this.router.navigate(['/']);
+      });
+  }
+
+  updateSpending(id: string, value: number, description: string, payer: string, date: Date) {
+    const spending: Spending = { id: id, value: value, description: description, payer: payer, date: date };
+    this.http
+      .put('http://localhost:3000/api/spendings/' + id, spending)
+      .subscribe(response => {
+        const updatedSpendings = [...this.spendings];
+        const oldSpendingIndex = updatedSpendings.findIndex(s => s.id === spending.id);
+        updatedSpendings[oldSpendingIndex] = spending;
+        this.spendings = updatedSpendings;
+        this.spendingsUpdated.next([...this.spendings]);
+        this.router.navigate(['/']);
       });
   }
 

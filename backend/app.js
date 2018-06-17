@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 
-const Spending = require('./models/spending');
+const spendingsRoutes = require('./routes/spendings');
 
 const app = express();
 
@@ -24,40 +24,11 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, DELETE, OPTIONS"
+    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
   );
   next();
 });
 
-app.post("/api/spendings", (req, res, next) => {
-  const spending = new Spending({
-    value: req.body.value,
-    description: req.body.description,
-    payer: req.body.payer,
-    date: req.body.date
-  });
-  spending.save().then(createdSpending => {
-    res.status(201).json({
-      message: 'Spendings added successfully',
-      spendingId: createdSpending._id
-    });
-  });
-});
-
-app.get('/api/spendings', (req, res, next) => {
-  Spending.find().then(documents => {
-    res.json({
-      message: 'Spendings fetched successfully!',
-      spendings: documents
-    });
-  });
-});
-
-app.delete("/api/spendings/:id", (req, res, next) => {
-  Spending.deleteOne({ _id: req.params.id }).then(result => {
-    console.log(result);
-    res.status(200).json({message: 'Spending deleted!'});
-  });
-});
+app.use("/api/spendings", spendingsRoutes);
 
 module.exports = app;

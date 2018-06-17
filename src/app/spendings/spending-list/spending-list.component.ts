@@ -12,14 +12,17 @@ import { SpendingsService } from '../spendings.service';
 
 export class SpendingListComponent implements OnInit, OnDestroy {
   spendings: Spending[] = [];
+  isLoading = false;
   private spendingsSub: Subscription;
 
   constructor(public spendingsService: SpendingsService) {}
 
   ngOnInit() {
+    this.isLoading = true;
     this.spendingsService.getSpendings();
     this.spendingsSub = this.spendingsService.getSpendingUpdateListener()
       .subscribe((spendings: Spending[]) => {
+        this.isLoading = false;
         this.spendings = spendings;
       });
   }
