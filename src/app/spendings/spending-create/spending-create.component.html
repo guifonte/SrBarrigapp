@@ -27,6 +27,6 @@
     <button
       mat-raised-button
       color = "primary"
-      type="submit">Add Spending</button>
+      type="submit">{{ mode == 'create' ? "Add Spending" : "Save Spending" }}</button>
   </form>
 </mat-card>
