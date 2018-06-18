@@ -16,7 +16,7 @@ export class SpendingCreateComponent implements OnInit {
   payer = 'Guilherme';
   spending: Spending;
   isLoading = false;
-  private mode = 'create';
+  mode = 'create';
   private spendingId: string;
 
   constructor(public spendingsService: SpendingsService, public route: ActivatedRoute) {}

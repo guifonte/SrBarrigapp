@@ -17,13 +17,17 @@ import { SpendingCreateComponent } from './spendings/spending-create/spending-cr
 import { HeaderComponent } from './header/header.component';
 import { SpendingListComponent } from './spendings/spending-list/spending-list.component';
 import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SpendingCreateComponent,
     HeaderComponent,
-    SpendingListComponent
+    SpendingListComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
