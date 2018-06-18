@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 
 import { Spending } from '../spending.model';
 import { SpendingsService } from '../spendings.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-spending-list',
@@ -13,17 +14,27 @@ import { SpendingsService } from '../spendings.service';
 export class SpendingListComponent implements OnInit, OnDestroy {
   spendings: Spending[] = [];
   isLoading = false;
-  private spendingsSub: Subscription;
+  userIsAuthenticated = false;
 
-  constructor(public spendingsService: SpendingsService) {}
+  private spendingsSub: Subscription;
+  private authStatusSub: Subscription;
+
+  constructor(public spendingsService: SpendingsService, private authService: AuthService) {}
 
   ngOnInit() {
     this.isLoading = true;
     this.spendingsService.getSpendings();
-    this.spendingsSub = this.spendingsService.getSpendingUpdateListener()
+    this.spendingsSub = this.spendingsService
+      .getSpendingUpdateListener()
       .subscribe((spendings: Spending[]) => {
         this.isLoading = false;
         this.spendings = spendings;
+      });
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authStatusSub = this.authService
+      .getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.userIsAuthenticated = isAuthenticated;
       });
   }
 
@@ -33,6 +44,7 @@ export class SpendingListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.spendingsSub.unsubscribe();
+    this.authStatusSub.unsubscribe();
   }
 }
 
