@@ -13,7 +13,6 @@ import { SpendingsService } from '../spendings.service';
 export class SpendingCreateComponent implements OnInit {
   enteredDescription = '';
   enteredValue;
-  payer = 'Guilherme';
   spending: Spending;
   isLoading = false;
   mode = 'create';
@@ -32,9 +31,10 @@ export class SpendingCreateComponent implements OnInit {
           this.spending = { id: spendingData._id,
                             value: spendingData.value,
                             date: spendingData.date,
-                            payer: spendingData.payer,
+                            payerFirstName: spendingData.payerFirstName,
+                            payerLastName: spendingData.payerLastName,
                             description: spendingData.description,
-                            creator: spendingData.creator
+                            creatorId: spendingData.creatorId
                           };
         });
       } else {
@@ -50,9 +50,14 @@ export class SpendingCreateComponent implements OnInit {
     }
     this.isLoading = true;
     if (this.mode === 'create') {
-      this.spendingsService.addSpending(form.value.value, form.value.description, this.payer);
+      this.spendingsService.addSpending(form.value.value, form.value.description);
     } else {
-      this.spendingsService.updateSpending(this.spending.id, form.value.value, form.value.description, this.payer, this.spending.date);
+      this.spendingsService.updateSpending(
+        this.spending.id,
+        form.value.value,
+        form.value.description,
+        this.spending.date
+      );
     }
     form.resetForm();
   }

@@ -25,8 +25,9 @@ export class SpendingsService {
             value: spending.value,
             description: spending.description,
             date: spending.date,
-            payer: spending.payer,
-            creator: spending.creator
+            payerFirstName: spending.payerFirstName,
+            payerLastName: spending.payerLastName,
+            creatorId: spending.creator
           };
         });
       }))
@@ -45,15 +46,24 @@ export class SpendingsService {
                           value: number,
                           description: string,
                           date: Date,
-                          payer: string,
-                          creator: string
+                          payerFirstName: string,
+                          payerLastName: string,
+                          creatorId: string
                         }>(
       'http://localhost:3000/api/spendings/' + id
     );
   }
 
-  addSpending(value: number, description: string, payer: string) {
-    const spending: Spending = { id: null, value: value, description: description, date: new Date, payer: payer, creator: null};
+  addSpending(value: number, description: string) {
+    const spending: Spending = {
+      id: null,
+      value: value,
+      description: description,
+      payerFirstName: null,
+      payerLastName: null,
+      date: new Date,
+      creatorId: null
+    };
     this.http.post<{ message: string, spendingId: string }>('http://localhost:3000/api/spendings', spending)
       .subscribe(responseData => {
         const id = responseData.spendingId;
@@ -64,8 +74,16 @@ export class SpendingsService {
       });
   }
 
-  updateSpending(id: string, value: number, description: string, payer: string, date: Date) {
-    const spending: Spending = { id: id, value: value, description: description, payer: payer, date: date, creator: null };
+  updateSpending(id: string, value: number, description: string, date: Date) {
+    const spending: Spending = {
+      id: id,
+      value: value,
+      description: description,
+      payerFirstName: null,
+      payerLastName: null,
+      date: date,
+      creatorId: null
+    };
     this.http
       .put('http://localhost:3000/api/spendings/' + id, spending)
       .subscribe(response => {

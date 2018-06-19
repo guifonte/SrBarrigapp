@@ -3,6 +3,7 @@ export interface Spending {
   value: number;
   description: string;
   date: Date;
-  payer: string;
-  creator: string;
+  payerFirstName: string;
+  payerLastName: string;
+  creatorId: string;
 }

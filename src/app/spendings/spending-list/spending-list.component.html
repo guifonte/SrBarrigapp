@@ -3,14 +3,14 @@
   <mat-expansion-panel *ngFor="let spending of spendings">
     <mat-expansion-panel-header>
         <mat-panel-title>
-          R${{ spending.value }} payed by {{ spending.payer }}
+          R${{ spending.value }} payed by {{ spending.payerFirstName }} {{ spending.payerLastName }}
         </mat-panel-title>
         <mat-panel-description>
           {{ spending.date | date:"dd/MM/yyyy 'at' h:mma" }}
         </mat-panel-description>
     </mat-expansion-panel-header>
     <p>{{ spending.description }}</p>
-    <mat-action-row *ngIf="userIsAuthenticated && userId == spending.creator">
+    <mat-action-row *ngIf="userIsAuthenticated && userId == spending.creatorId">
       <button mat-button color="primary" [routerLink]="['/edit', spending.id]">EDIT</button>
       <button mat-button color="warn" (click)="onDelete(spending.id)">DELETE</button>
     </mat-action-row>

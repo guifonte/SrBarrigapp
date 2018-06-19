@@ -11,9 +11,10 @@ router.post("",
   const spending = new Spending({
     value: req.body.value,
     description: req.body.description,
-    payer: req.body.payer,
+    payerFirstName: req.userData.firstName,
+    payerLastName: req.userData.lastName,
     date: req.body.date,
-    creator: req.userData.userId
+    creatorId: req.userData.userId
   });
   spending.save().then(createdSpending => {
     res.status(201).json({
@@ -30,11 +31,12 @@ router.put("/:id",
     _id: req.body.id,
     value: req.body.value,
     description: req.body.description,
-    payer: req.body.payer,
+    payerFirstName: req.userData.firstName,
+    payerLastName: req.userData.lastName,
     date: req.body.date,
-    creator: req.userData.userId
+    creatorId: req.userData.userId
   })
-  Spending.updateOne({_id: req.params.id, creator: req.userData.userId }, spending).then(result => {
+  Spending.updateOne({_id: req.params.id, creatorId: req.userData.userId }, spending).then(result => {
     if (result.nModified > 0){
       res.status(200).json({ message: "Update successful!" });
     } else {
@@ -65,7 +67,7 @@ router.get('/:id', (req, res, next) => {
 router.delete("/:id",
   checkAuth,
   (req, res, next) => {
-  Spending.deleteOne({ _id: req.params.id, creator: req.userData.userId }).then(result => {
+  Spending.deleteOne({ _id: req.params.id, creatorId: req.userData.userId }).then(result => {
     if (result.n > 0){
       res.status(200).json({ message: "Deletion successful!" });
     } else {
