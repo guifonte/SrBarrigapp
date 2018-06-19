@@ -19,7 +19,8 @@ router.post("",
   spending.save().then(createdSpending => {
     res.status(201).json({
       message: 'Spendings added successfully',
-      spendingId: createdSpending._id
+      spendingId: createdSpending._id,
+      creatorId: createdSpending.creatorId
     });
   });
 });

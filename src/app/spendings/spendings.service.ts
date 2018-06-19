@@ -27,7 +27,7 @@ export class SpendingsService {
             date: spending.date,
             payerFirstName: spending.payerFirstName,
             payerLastName: spending.payerLastName,
-            creatorId: spending.creator
+            creatorId: spending.creatorId
           };
         });
       }))
