@@ -25,7 +25,8 @@ export class SpendingsService {
             value: spending.value,
             description: spending.description,
             date: spending.date,
-            payer: spending.payer
+            payer: spending.payer,
+            creator: spending.creator
           };
         });
       }))
@@ -44,14 +45,15 @@ export class SpendingsService {
                           value: number,
                           description: string,
                           date: Date,
-                          payer: string
+                          payer: string,
+                          creator: string
                         }>(
       'http://localhost:3000/api/spendings/' + id
     );
   }
 
   addSpending(value: number, description: string, payer: string) {
-    const spending: Spending = { id: null, value: value, description: description, date: new Date, payer: payer};
+    const spending: Spending = { id: null, value: value, description: description, date: new Date, payer: payer, creator: null};
     this.http.post<{ message: string, spendingId: string }>('http://localhost:3000/api/spendings', spending)
       .subscribe(responseData => {
         const id = responseData.spendingId;
@@ -63,7 +65,7 @@ export class SpendingsService {
   }
 
   updateSpending(id: string, value: number, description: string, payer: string, date: Date) {
-    const spending: Spending = { id: id, value: value, description: description, payer: payer, date: date };
+    const spending: Spending = { id: id, value: value, description: description, payer: payer, date: date, creator: null };
     this.http
       .put('http://localhost:3000/api/spendings/' + id, spending)
       .subscribe(response => {

@@ -15,6 +15,7 @@ export class SpendingListComponent implements OnInit, OnDestroy {
   spendings: Spending[] = [];
   isLoading = false;
   userIsAuthenticated = false;
+  userId: string;
 
   private spendingsSub: Subscription;
   private authStatusSub: Subscription;
@@ -24,6 +25,7 @@ export class SpendingListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoading = true;
     this.spendingsService.getSpendings();
+    this.userId = this.authService.getUserId();
     this.spendingsSub = this.spendingsService
       .getSpendingUpdateListener()
       .subscribe((spendings: Spending[]) => {
@@ -35,6 +37,7 @@ export class SpendingListComponent implements OnInit, OnDestroy {
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
+        this.userId = this.authService.getUserId();
       });
   }
 

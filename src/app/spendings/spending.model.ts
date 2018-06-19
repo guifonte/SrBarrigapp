@@ -4,4 +4,5 @@ export interface Spending {
   description: string;
   date: Date;
   payer: string;
+  creator: string;
 }
