@@ -24,6 +24,30 @@
         #passwordInput="ngModel">
       <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
     </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        name="firstName"
+        required
+        ngModel
+        text
+        placeholder="First Name"
+        #firstName="ngModel">
+      <mat-error *ngIf="firstName.invalid">Please enter your first name.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        name="lastName"
+        required
+        ngModel
+        text
+        placeholder="Last Name"
+        #lastName="ngModel">
+      <mat-error *ngIf="lastName.invalid">Please enter your last name.</mat-error>
+    </mat-form-field>
     <button
       mat-raised-button
       *ngIf="!isLoading"
