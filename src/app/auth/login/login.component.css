@@ -5,4 +5,5 @@ textarea{
 
 mat-spinner {
   margin: auto;
+  display: block;
 }
