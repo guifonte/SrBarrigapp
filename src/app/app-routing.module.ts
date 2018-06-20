@@ -5,11 +5,13 @@ import { SpendingCreateComponent } from './spendings/spending-create/spending-cr
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthGuard } from './auth/auth.guard';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path: '', component: SpendingListComponent },
-  { path: 'create', component: SpendingCreateComponent, canActivate: [AuthGuard] },
-  { path: 'edit/:spendingId', component: SpendingCreateComponent, canActivate: [AuthGuard] },
+  { path: '', component: HomeComponent },
+  { path: 'spendings', component: SpendingListComponent, canActivate: [AuthGuard] },
+  { path: 'spendings/create', component: SpendingCreateComponent, canActivate: [AuthGuard] },
+  { path: 'spendings/edit/:spendingId', component: SpendingCreateComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent }
 ];

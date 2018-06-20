@@ -1,9 +1,10 @@
 <mat-toolbar color="primary">
-  <span><a routerLink="/">SrBarriga</a></span>
+  <span *ngIf="!userIsAuthenticated"><a routerLink="/">SrBarriga</a></span>
+  <span *ngIf="userIsAuthenticated"><a routerLink="/spendings">{{ userFirstName }}'s SrBarriga</a></span>
   <span class="spacer"></span>
   <ul>
     <li *ngIf="userIsAuthenticated">
-      <a mat-button routerLink="/create" routerLinkActive="mat-accent">New Spending</a>
+      <a mat-button routerLink="/spendings/create" routerLinkActive="mat-accent">New Spending</a>
     </li>
     <li *ngIf="!userIsAuthenticated">
       <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>

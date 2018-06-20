@@ -70,7 +70,7 @@ export class AuthService {
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
           const user: UserData = { userId: this.userId, firstName: this.firstName, lastName: this.lastName };
           this.saveAuthData(token, expirationDate, user);
-          this.router.navigate(['/']);
+          this.router.navigate(['/spendings']);
         }
       });
   }
