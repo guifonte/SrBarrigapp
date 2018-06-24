@@ -28,6 +28,7 @@ export class SpendingCreateComponent implements OnInit {
         this.isLoading = true;
         this.spendingsService.getSpending(this.spendingId).subscribe(spendingData => {
           this.isLoading = false;
+          console.log(spendingData);
           this.spending = { id: spendingData._id,
                             value: spendingData.value,
                             date: spendingData.date,

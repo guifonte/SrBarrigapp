@@ -1,0 +1,52 @@
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form (submit)="onGroupCreate(groupForm)" #groupForm="ngForm" *ngIf="!isLoading">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        name="groupName"
+        required
+        text
+        placeholder="Name of the Group"
+        ngModel
+        #groupNameInput="ngModel">
+      <mat-error *ngIf="groupNameInput.invalid">Please enter a valid group name.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="email"
+        email
+        placeholder="Member E-mail to be added"
+        #memberEmailInput="ngModel"
+        [(ngModel)]="memberEmail"
+        [ngModelOptions]= "{ standalone: true }">
+      <mat-error *ngIf="!memberEmailValid || memberEmailInput.invalid">Please enter a valid E-mail.</mat-error>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      *ngIf="!isLoading"
+      color = "primary"
+      (click)="onAddUser()">Add User</button>
+    <mat-accordion multi="true" *ngIf="members.length > 0 && !isLoading">
+      <mat-expansion-panel *ngFor="let member of members">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ member.firstName }} {{ member.lastName }}
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>{{ member.email }}</p>
+        <mat-action-row>
+          <button mat-button color="warn" (click)="onDeleteMember(member.userId)">DELETE</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <p class="info-text mat-body-1" *ngIf="members.length <= 0 && !isLoading">No members added yet!</p>
+    <button
+      mat-raised-button
+      *ngIf="!isLoading"
+      color = "primary"
+      type="submit">Create</button>
+  </form>
+</mat-card>
