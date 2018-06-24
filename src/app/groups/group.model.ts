@@ -1,7 +1,9 @@
+import { UserData } from '../auth/user-data.model';
+
 export interface Group {
   id: string;
-  name: number;
+  name: string;
   adminId: string;
-  members: [{id: string, firstName: string, lastName: string}];
+  members: UserData[];
   isOpen: boolean;
 }

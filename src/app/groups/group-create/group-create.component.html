@@ -1,15 +1,15 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <form (submit)="onGroupCreate(groupForm)" #groupForm="ngForm" *ngIf="!isLoading">
     <mat-form-field>
       <input
         matInput
         type="text"
         name="groupName"
+        *ngIf="!isLoading"
         required
         text
         placeholder="Name of the Group"
-        ngModel
+        [(ngModel)]="groupName"
         #groupNameInput="ngModel">
       <mat-error *ngIf="groupNameInput.invalid">Please enter a valid group name.</mat-error>
     </mat-form-field>
@@ -17,12 +17,12 @@
       <input
         matInput
         type="email"
+        *ngIf="!isLoading"
         email
         placeholder="Member E-mail to be added"
         #memberEmailInput="ngModel"
-        [(ngModel)]="memberEmail"
-        [ngModelOptions]= "{ standalone: true }">
-      <mat-error *ngIf="!memberEmailValid || memberEmailInput.invalid">Please enter a valid E-mail.</mat-error>
+        [(ngModel)]="memberEmail">
+      <mat-error *ngIf="memberEmailInput.invalid">Please enter a valid E-mail.</mat-error>
     </mat-form-field>
     <button
       mat-raised-button
@@ -47,6 +47,5 @@
       mat-raised-button
       *ngIf="!isLoading"
       color = "primary"
-      type="submit">Create</button>
-  </form>
+      (click)="onGroupCreate(groupNameInput)">Create</button>
 </mat-card>

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UserData } from '../../auth/user-data.model';
 import { GroupsService } from '../groups.service';
 import { Subscription } from 'rxjs';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-group-create',
@@ -12,7 +13,7 @@ export class GroupCreateComponent implements OnInit {
 
   isLoading = false;
   memberEmail;
-  memberEmailValid = true;
+  groupName;
   members: UserData[] = [];
 
   private membersSub: Subscription;
@@ -28,8 +29,16 @@ export class GroupCreateComponent implements OnInit {
       });
   }
 
-  onGroupCreate() {
-
+  onGroupCreate(groupName: NgModel) {
+    if (groupName.invalid) {
+      return;
+    }
+    if (this.members.length <= 0) {
+      alert('Your group should have some members.');
+      return;
+    }
+    this.isLoading = true;
+    this.groupsService.addGroup(this.groupName, this.members);
   }
 
   onDeleteMember(userId: string) {
@@ -37,7 +46,6 @@ export class GroupCreateComponent implements OnInit {
   }
 
   onAddUser() {
-    this.memberEmailValid = false;
-    console.log(this.memberEmail);
+    this.groupsService.getMember(this.memberEmail);
   }
 }

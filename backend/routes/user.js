@@ -23,6 +23,7 @@ router.post("/signup", (req, res, next) => {
         })
         .catch(err => {
           res.status(500).json({
+            message: "There is already an user signed with this E-Mail.",
             error: err
           });
         });
@@ -69,6 +70,21 @@ router.post("/login", (req, res, next) => {
         message: "Auth failed"
       });
     });
+});
+
+router.get('/:email', (req, res, next) => {
+  User.findOne({email: req.params.email}).then(user => {
+    if(user) {
+      res.status(200).json({
+        userId: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email
+      });
+    } else {
+      res.status(404).json({message: 'User not found!'});
+    }
+  });
 });
 
 module.exports = router;
