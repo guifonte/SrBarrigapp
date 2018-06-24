@@ -44,7 +44,8 @@ export class GroupsService {
       isOpen: true
     };
     this.http.post<{ message: string }>('http://localhost:3000/api/groups/', group)
-      .subscribe( () => {
+      .subscribe( responseData => {
+        console.log(responseData.message);
         this.router.navigate(['/']);
       });
   }

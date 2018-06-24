@@ -1,11 +1,9 @@
 <mat-card>
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
     <mat-form-field>
       <input
         matInput
         type="text"
         name="groupName"
-        *ngIf="!isLoading"
         required
         text
         placeholder="Name of the Group"
@@ -17,7 +15,6 @@
       <input
         matInput
         type="email"
-        *ngIf="!isLoading"
         email
         placeholder="Member E-mail to be added"
         #memberEmailInput="ngModel"
@@ -26,7 +23,6 @@
     </mat-form-field>
     <button
       mat-raised-button
-      *ngIf="!isLoading"
       color = "primary"
       (click)="onAddUser()">Add User</button>
     <mat-accordion multi="true" *ngIf="members.length > 0 && !isLoading">
@@ -45,7 +41,6 @@
     <p class="info-text mat-body-1" *ngIf="members.length <= 0 && !isLoading">No members added yet!</p>
     <button
       mat-raised-button
-      *ngIf="!isLoading"
       color = "primary"
       (click)="onGroupCreate(groupNameInput)">Create</button>
 </mat-card>
