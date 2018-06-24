@@ -23,32 +23,30 @@ export class GroupListComponent implements OnInit, OnDestroy {
   constructor(public groupsService: GroupsService, private authService: AuthService) {}
 
   ngOnInit() {
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has('spendingId')) {
-        this.mode = 'edit';
-        this.spendingId = paramMap.get('spendingId');
-        this.isLoading = true;
-        this.spendingsService.getSpending(this.spendingId).subscribe(spendingData => {
-          this.isLoading = false;
-          console.log(spendingData);
-          this.spending = { id: spendingData._id,
-                            value: spendingData.value,
-                            date: spendingData.date,
-                            payerFirstName: spendingData.payerFirstName,
-                            payerLastName: spendingData.payerLastName,
-                            description: spendingData.description,
-                            creatorId: spendingData.creatorId
-                          };
-        });
-      } else {
-        this.mode = 'create';
-        this.spendingId = null;
-      }
+    this.isLoading = true;
+    this.userId = this.authService.getUserId();
+    this.groupsService.getGroups();
+    this.groupsSub = this.groupsService
+      .getGroupUpdateListener()
+      .subscribe((groups: Group[]) => {
+        this.isLoading = false;
+        this.groups = groups;
+      });
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authStatusSub = this.authService
+      .getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.userIsAuthenticated = isAuthenticated;
+        this.userId = this.authService.getUserId();
     });
   }
 
   onDelete(groupId: string) {
     this.groupsService.deleteGroup(groupId);
+  }
+
+  onDeleteMember(memberId: string) {
+
   }
 
   ngOnDestroy() {

@@ -5,16 +5,31 @@
         <mat-panel-title>
           {{ group.name }}
         </mat-panel-title>
-        <mat-panel-description>
-          O que colocar aqui?
+        <mat-panel-description *ngIf="group.adminId == userId">
+          Admin
         </mat-panel-description>
     </mat-expansion-panel-header>
-    <mat-list>
-        <a mat-list-item *ngFor="let member of group.members"> {{ member.firstName }} </a>
-     </mat-list>
-    <mat-action-row *ngIf="userIsAuthenticated && userId == group.adminId">
-      <button mat-button color="primary" [routerLink]="['/groups/edit', group.id]">EDIT</button>
+    <mat-accordion multi="true" *ngIf="groups.length > 0 && !isLoading">
+      <mat-expansion-panel *ngFor="let member of group.members">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ member.firstName }} {{ member.lastName }}
+            </mat-panel-title>
+            <mat-panel-description *ngIf="member.userId == group.adminId">
+              Admin
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p class="email-text mat-body-1"> {{ member.email }} </p>
+        <mat-action-row *ngIf="userIsAuthenticated && userId == group.adminId && member.userId != group.adminId">
+          <button mat-button color="warn" (click)="onDelete(member.userId)">REMOVE</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-action-row *ngIf="userIsAuthenticated">
+        <button mat-button color="primary" [routerLink]="['/spendings']">ENTER</button>
+      <button mat-button color="warn" *ngIf="userId == group.adminId" (click)="onDelete(group.id)">DELETE</button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
 <p class="info-text mat-body-1" *ngIf="groups.length <= 0 && !isLoading">You currently don't belong to any groups.</p>
+

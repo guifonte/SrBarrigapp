@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <span *ngIf="!userIsAuthenticated"><a routerLink="/">SrBarriga</a></span>
-  <span *ngIf="userIsAuthenticated"><a routerLink="/spendings">{{ userFirstName }}'s SrBarriga</a></span>
+  <span *ngIf="userIsAuthenticated"><a routerLink="/groups">{{ userFirstName }}'s Groups of SrBarriga</a></span>
   <span class="spacer"></span>
   <ul>
     <li *ngIf="userIsAuthenticated">

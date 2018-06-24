@@ -65,17 +65,24 @@ export class GroupsService {
   }
 
   addGroup(name: string, members: UserData[]) {
+    members.push({
+      userId: this.authService.getUserId(),
+      firstName: this.authService.getUserFirstName(),
+      lastName: this.authService.getUserLastName(),
+      email: null,
+    });
+    const membersAndAdmin = members;
     const group: Group = {
       id: null,
       name: name,
-      members: members,
+      members: membersAndAdmin,
       adminId: this.authService.getUserId(),
       isOpen: true
     };
     this.http.post<{ message: string }>('http://localhost:3000/api/groups/', group)
       .subscribe( responseData => {
         console.log(responseData.message);
-        this.router.navigate(['/']);
+        this.router.navigate(['/groups']);
       });
   }
 
