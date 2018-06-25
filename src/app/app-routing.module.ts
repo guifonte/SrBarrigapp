@@ -7,10 +7,12 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { AuthGuard } from './auth/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { GroupCreateComponent } from './groups/group-create/group-create.component';
+import { GroupListComponent } from './groups/group-list/group-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'groups/create', component: GroupCreateComponent, canActivate: [AuthGuard] },
+  { path: 'groups', component: GroupListComponent, canActivate: [AuthGuard] },
   { path: 'spendings', component: SpendingListComponent, canActivate: [AuthGuard] },
   { path: 'spendings/create', component: SpendingCreateComponent, canActivate: [AuthGuard] },
   { path: 'spendings/edit/:spendingId', component: SpendingCreateComponent, canActivate: [AuthGuard] },
