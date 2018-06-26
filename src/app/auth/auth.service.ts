@@ -13,6 +13,7 @@ export class AuthService {
   private userId: string;
   private firstName: string;
   private lastName: string;
+  private email: string;
   private authStatusListener = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -44,7 +45,7 @@ export class AuthService {
     this.http
       .post('http://localhost:3000/api/user/signup', authData)
       .subscribe(() => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
       }, error => {
         this.authStatusListener.next(false);
       });
@@ -76,7 +77,7 @@ export class AuthService {
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
           const user: UserData = { userId: this.userId, firstName: this.firstName, lastName: this.lastName, email: null};
           this.saveAuthData(token, expirationDate, user);
-          this.router.navigate(['/spendings']);
+          this.router.navigate(['/groups']);
         }
       }, error => {
         this.authStatusListener.next(false);

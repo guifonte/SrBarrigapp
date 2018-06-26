@@ -9,7 +9,8 @@ import {
   MatButtonModule,
   MatToolbarModule,
   MatExpansionModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatListModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -23,6 +24,7 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 import { HomeComponent } from './home/home.component';
 import { GroupCreateComponent } from './groups/group-create/group-create.component';
 import { ErrorInterceptor } from './error-interceptor';
+import { GroupListComponent } from './groups/group-list/group-list.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { ErrorInterceptor } from './error-interceptor';
     LoginComponent,
     SignupComponent,
     HomeComponent,
-    GroupCreateComponent
+    GroupCreateComponent,
+    GroupListComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,8 @@ import { ErrorInterceptor } from './error-interceptor';
     MatToolbarModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
+    MatListModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
