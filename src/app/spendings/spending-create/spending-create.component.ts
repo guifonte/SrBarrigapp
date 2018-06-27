@@ -4,6 +4,8 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { Spending } from '../spending.model';
 import { SpendingsService } from '../spendings.service';
+import { UserData } from '../../auth/user-data.model';
+import { Group } from '../../groups/group.model';
 
 @Component({
   selector: 'app-spending-create',
@@ -13,6 +15,7 @@ import { SpendingsService } from '../spendings.service';
 export class SpendingCreateComponent implements OnInit {
   enteredDescription = '';
   enteredValue;
+  members: UserData[] = [];
   spending: Spending;
   isLoading = false;
   mode = 'create';
@@ -24,11 +27,14 @@ export class SpendingCreateComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('groupId')) {
+        this.isLoading = true;
         this.groupId = paramMap.get('groupId');
+        this.spendingsService.getGroup(this.groupId).subscribe((group: Group) => {
+          this.members = group.members;
+          });
         if (paramMap.has('spendingId')) {
           this.mode = 'edit';
           this.spendingId = paramMap.get('spendingId');
-          this.isLoading = true;
           this.spendingsService.getSpending(this.spendingId).subscribe(spendingData => {
             this.isLoading = false;
             console.log(spendingData);
@@ -45,6 +51,7 @@ export class SpendingCreateComponent implements OnInit {
         } else {
           this.mode = 'create';
           this.spendingId = null;
+          this.isLoading = false;
         }
       } else {
         this.router.navigate(['/groups']);

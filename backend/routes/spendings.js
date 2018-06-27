@@ -45,7 +45,7 @@ router.put("/:id",
   })
 })
 
-router.get('/:groupId', (req, res, next) => {
+router.get('/group/:groupId', (req, res, next) => {
   console.log(req.params.groupId);
   Spending.find({groupId: req.params.groupId}).then(documents => {
     res.json({

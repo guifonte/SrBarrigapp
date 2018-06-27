@@ -5,11 +5,13 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { Spending } from './spending.model';
+import { UserData } from '../auth/user-data.model';
 
 @Injectable({providedIn: 'root'})
 export class SpendingsService {
   private spendings: Spending[] = [];
   private groupId;
+
 
   private spendingsUpdated = new Subject<Spending[]>();
   private groupIdStatusListener = new Subject<boolean>();
@@ -29,12 +31,16 @@ export class SpendingsService {
     this.groupIdStatusListener.next(false);
   }
 
+  getGroup(groupId: string) {
+    return this.http.get('http://localhost:3000/api/groups/' + groupId);
+  }
+
   getSpendings(groupId: string) {
     this.groupId = groupId;
     this.groupIdStatusListener.next(true);
     this.http
       .get<{message: string, spendings: any }>(
-        'http://localhost:3000/api/spendings/' + groupId
+        'http://localhost:3000/api/spendings/group/' + groupId
       )
       .pipe(map((spendingData) => {
         return spendingData.spendings.map(spending => {

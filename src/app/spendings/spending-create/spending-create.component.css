@@ -1,5 +1,5 @@
 mat-form-field,
-textarea{
+textarea {
   width:100%;
 }
 
@@ -8,8 +8,21 @@ mat-spinner {
   display: block;
 }
 
-button{
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.saveButton {
   margin-top: 1rem
 }
 
+.spacer {
+  flex: 1 1 auto;
+}
+
+.email {
+  color: gray;
+}
 

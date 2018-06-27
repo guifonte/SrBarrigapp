@@ -3,7 +3,7 @@
   <span *ngIf="userIsAuthenticated"><a routerLink="/groups">{{ userFirstName }}'s Groups of SrBarriga</a></span>
   <span class="spacer"></span>
   <ul>
-    <li *ngIf="userIsAuthenticated">
+    <li *ngIf="userIsAuthenticated && !groupIsActive">
         <a mat-button routerLink="/groups/create" routerLinkActive="mat-accent">New Group</a>
     </li>
     <li *ngIf="userIsAuthenticated && groupIsActive">

@@ -63,6 +63,7 @@ router.get("",
         res.status(404).json({message: 'The user has no group!'});
       }
   })
+
   /*const query = Group.find({ adminId: req.userData.userId });
   query
   .collection(Group.collection)
