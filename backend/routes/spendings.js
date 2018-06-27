@@ -12,7 +12,8 @@ router.post("",
     payerFirstName: req.userData.firstName,
     payerLastName: req.userData.lastName,
     date: req.body.date,
-    creatorId: req.userData.userId
+    creatorId: req.userData.userId,
+    groupId: req.body.groupId
   });
   spending.save().then(createdSpending => {
     res.status(201).json({
@@ -44,8 +45,9 @@ router.put("/:id",
   })
 })
 
-router.get('', (req, res, next) => {
-  Spending.find().then(documents => {
+router.get('/:groupId', (req, res, next) => {
+  console.log(req.params.groupId);
+  Spending.find({groupId: req.params.groupId}).then(documents => {
     res.json({
       message: 'Spendings fetched successfully!',
       spendings: documents
@@ -54,6 +56,7 @@ router.get('', (req, res, next) => {
 });
 
 router.get('/:id', (req, res, next) => {
+  console.log("fail: " + req.params.groupId);
   Spending.findById(req.params.id).then(spending => {
     if(spending) {
       res.status(200).json(spending);

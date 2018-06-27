@@ -38,7 +38,8 @@ export class SpendingCreateComponent implements OnInit {
                               payerFirstName: spendingData.payerFirstName,
                               payerLastName: spendingData.payerLastName,
                               description: spendingData.description,
-                              creatorId: spendingData.creatorId
+                              creatorId: spendingData.creatorId,
+                              groupId: spendingData.groupId
                             };
           });
         } else {

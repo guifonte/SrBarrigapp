@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { Spending } from './spending.model';
-import { AnimationKeyframesSequenceMetadata } from '@angular/animations';
 
 @Injectable({providedIn: 'root'})
 export class SpendingsService {
@@ -35,7 +34,7 @@ export class SpendingsService {
     this.groupIdStatusListener.next(true);
     this.http
       .get<{message: string, spendings: any }>(
-        'http://localhost:3000/api/spendings'
+        'http://localhost:3000/api/spendings/' + groupId
       )
       .pipe(map((spendingData) => {
         return spendingData.spendings.map(spending => {
@@ -46,7 +45,8 @@ export class SpendingsService {
             date: spending.date,
             payerFirstName: spending.payerFirstName,
             payerLastName: spending.payerLastName,
-            creatorId: spending.creatorId
+            creatorId: spending.creatorId,
+            groupId: spending.groupId
           };
         });
       }))
@@ -67,7 +67,8 @@ export class SpendingsService {
                           date: Date,
                           payerFirstName: string,
                           payerLastName: string,
-                          creatorId: string
+                          creatorId: string,
+                          groupId: string
                         }>(
       'http://localhost:3000/api/spendings/' + id
     );
@@ -81,7 +82,8 @@ export class SpendingsService {
       payerFirstName: null,
       payerLastName: null,
       date: new Date,
-      creatorId: null
+      creatorId: null,
+      groupId: idOfGroup
     };
     this.http.post<{ message: string, spendingId: string }>('http://localhost:3000/api/spendings', spending)
       .subscribe(responseData => {
@@ -89,7 +91,7 @@ export class SpendingsService {
         spending.id = id;
         this.spendings.push(spending);
         this.spendingsUpdated.next([...this.spendings]);
-        this.router.navigate(['/spendings/:groupId'], idOfGroup);
+        this.router.navigate(['/spendings/' + idOfGroup]);
       });
   }
 
@@ -101,7 +103,8 @@ export class SpendingsService {
       payerFirstName: null,
       payerLastName: null,
       date: date,
-      creatorId: null
+      creatorId: null,
+      groupId: idOfGroup
     };
     this.http
       .put('http://localhost:3000/api/spendings/' + id, spending)
@@ -112,7 +115,7 @@ export class SpendingsService {
         this.spendings = updatedSpendings;
         this.spendingsUpdated.next([...this.spendings]);
         console.log(idOfGroup);
-        this.router.navigate(['/spendings/:groupId'], idOfGroup);
+        this.router.navigate(['/spendings/' + idOfGroup]);
       });
   }
 

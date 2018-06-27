@@ -6,4 +6,5 @@ export interface Spending {
   payerFirstName: string;
   payerLastName: string;
   creatorId: string;
+  groupId: string;
 }

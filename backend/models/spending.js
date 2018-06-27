@@ -6,7 +6,8 @@ const spendingSchema = mongoose.Schema({
   date: {type: Date, required: true},
   payerFirstName: {type: String, required: true},
   payerLastName: {type: String, required: true},
-  creatorId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
+  creatorId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  groupId: { type: mongoose.Schema.Types.ObjectId, ref: "Group", required: true }
 });
 
 module.exports = mongoose.model('Spending', spendingSchema);
