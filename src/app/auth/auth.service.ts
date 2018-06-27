@@ -26,6 +26,10 @@ export class AuthService {
     return this.lastName;
   }
 
+  getUserEmail() {
+    return this.email;
+  }
+
   getUserId() {
     return this.userId;
   }
@@ -58,7 +62,8 @@ export class AuthService {
       expiresIn: number,
       userId: string,
       firstName: string,
-      lastName: string}>(
+      lastName: string,
+      email: string}>(
         'http://localhost:3000/api/user/login',
         authData
       )
@@ -72,10 +77,11 @@ export class AuthService {
           this.userId = response.userId;
           this.firstName = response.firstName;
           this.lastName = response.lastName;
+          this.email = response.email;
           this.authStatusListener.next(true);
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
-          const user: UserData = { userId: this.userId, firstName: this.firstName, lastName: this.lastName, email: null};
+          const user: UserData = { userId: this.userId, firstName: this.firstName, lastName: this.lastName, email: this.email};
           this.saveAuthData(token, expirationDate, user);
           this.router.navigate(['/groups']);
         }
@@ -97,6 +103,7 @@ export class AuthService {
       this.userId = authInformation.userId;
       this.firstName = authInformation.firstName;
       this.lastName = authInformation.lastName;
+      this.email = authInformation.email;
       this.setAuthTimer(expiresIn / 1000);
       this.authStatusListener.next(true);
     }
@@ -125,6 +132,7 @@ export class AuthService {
     localStorage.setItem('userId', user.userId);
     localStorage.setItem('firstName', user.firstName);
     localStorage.setItem('lastName', user.lastName);
+    localStorage.setItem('email', user.email);
   }
 
   private clearAuthData() {
@@ -133,6 +141,7 @@ export class AuthService {
     localStorage.removeItem('userId');
     localStorage.removeItem('firstName');
     localStorage.removeItem('lastName');
+    localStorage.removeItem('email');
   }
 
   private getAuthData() {
@@ -141,6 +150,7 @@ export class AuthService {
     const userId = localStorage.getItem('userId');
     const firstName = localStorage.getItem('firstName');
     const lastName = localStorage.getItem('lastName');
+    const email = localStorage.getItem('email');
     if (!token || !expirationDate) {
       return;
     }
@@ -149,7 +159,8 @@ export class AuthService {
       expirationDate: new Date(expirationDate),
       userId: userId,
       firstName: firstName,
-      lastName: lastName
+      lastName: lastName,
+      email: email
     };
   }
 }

@@ -5,15 +5,34 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { Spending } from './spending.model';
+import { AnimationKeyframesSequenceMetadata } from '@angular/animations';
 
 @Injectable({providedIn: 'root'})
 export class SpendingsService {
   private spendings: Spending[] = [];
+  private groupId;
+
   private spendingsUpdated = new Subject<Spending[]>();
+  private groupIdStatusListener = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getSpendings() {
+  getGroupId() {
+    return this.groupId;
+  }
+
+  getGroupIdStatusListener() {
+    return this.groupIdStatusListener;
+  }
+
+  exitGroup() {
+    this.groupId = null;
+    this.groupIdStatusListener.next(false);
+  }
+
+  getSpendings(groupId: string) {
+    this.groupId = groupId;
+    this.groupIdStatusListener.next(true);
     this.http
       .get<{message: string, spendings: any }>(
         'http://localhost:3000/api/spendings'
@@ -54,7 +73,7 @@ export class SpendingsService {
     );
   }
 
-  addSpending(value: number, description: string) {
+  addSpending(value: number, description: string, idOfGroup: any) {
     const spending: Spending = {
       id: null,
       value: value,
@@ -70,11 +89,11 @@ export class SpendingsService {
         spending.id = id;
         this.spendings.push(spending);
         this.spendingsUpdated.next([...this.spendings]);
-        this.router.navigate(['/']);
+        this.router.navigate(['/spendings/:groupId'], idOfGroup);
       });
   }
 
-  updateSpending(id: string, value: number, description: string, date: Date) {
+  updateSpending(id: string, value: number, description: string, date: Date, idOfGroup: any) {
     const spending: Spending = {
       id: id,
       value: value,
@@ -92,7 +111,8 @@ export class SpendingsService {
         updatedSpendings[oldSpendingIndex] = spending;
         this.spendings = updatedSpendings;
         this.spendingsUpdated.next([...this.spendings]);
-        this.router.navigate(['/']);
+        console.log(idOfGroup);
+        this.router.navigate(['/spendings/:groupId'], idOfGroup);
       });
   }
 

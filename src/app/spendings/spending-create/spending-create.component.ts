@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { Spending } from '../spending.model';
 import { SpendingsService } from '../spendings.service';
@@ -17,30 +17,36 @@ export class SpendingCreateComponent implements OnInit {
   isLoading = false;
   mode = 'create';
   private spendingId: string;
+  private groupId: string;
 
-  constructor(public spendingsService: SpendingsService, public route: ActivatedRoute) {}
+  constructor(public spendingsService: SpendingsService, public route: ActivatedRoute, public router: Router) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has('spendingId')) {
-        this.mode = 'edit';
-        this.spendingId = paramMap.get('spendingId');
-        this.isLoading = true;
-        this.spendingsService.getSpending(this.spendingId).subscribe(spendingData => {
-          this.isLoading = false;
-          console.log(spendingData);
-          this.spending = { id: spendingData._id,
-                            value: spendingData.value,
-                            date: spendingData.date,
-                            payerFirstName: spendingData.payerFirstName,
-                            payerLastName: spendingData.payerLastName,
-                            description: spendingData.description,
-                            creatorId: spendingData.creatorId
-                          };
-        });
+      if (paramMap.has('groupId')) {
+        this.groupId = paramMap.get('groupId');
+        if (paramMap.has('spendingId')) {
+          this.mode = 'edit';
+          this.spendingId = paramMap.get('spendingId');
+          this.isLoading = true;
+          this.spendingsService.getSpending(this.spendingId).subscribe(spendingData => {
+            this.isLoading = false;
+            console.log(spendingData);
+            this.spending = { id: spendingData._id,
+                              value: spendingData.value,
+                              date: spendingData.date,
+                              payerFirstName: spendingData.payerFirstName,
+                              payerLastName: spendingData.payerLastName,
+                              description: spendingData.description,
+                              creatorId: spendingData.creatorId
+                            };
+          });
+        } else {
+          this.mode = 'create';
+          this.spendingId = null;
+        }
       } else {
-        this.mode = 'create';
-        this.spendingId = null;
+        this.router.navigate(['/groups']);
       }
     });
   }
@@ -51,13 +57,14 @@ export class SpendingCreateComponent implements OnInit {
     }
     this.isLoading = true;
     if (this.mode === 'create') {
-      this.spendingsService.addSpending(form.value.value, form.value.description);
+      this.spendingsService.addSpending(form.value.value, form.value.description, this.groupId);
     } else {
       this.spendingsService.updateSpending(
         this.spending.id,
         form.value.value,
         form.value.description,
-        this.spending.date
+        this.spending.date,
+        this.groupId
       );
     }
     form.resetForm();

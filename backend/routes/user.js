@@ -62,7 +62,8 @@ router.post("/login", (req, res, next) => {
         expiresIn: 3600,
         userId: fetchedUser._id,
         firstName: fetchedUser.firstName,
-        lastName: fetchedUser.lastName
+        lastName: fetchedUser.lastName,
+        email: fetchedUser.email
       });
     })
     .catch(err => {

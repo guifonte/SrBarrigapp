@@ -69,7 +69,7 @@ export class GroupsService {
       userId: this.authService.getUserId(),
       firstName: this.authService.getUserFirstName(),
       lastName: this.authService.getUserLastName(),
-      email: null,
+      email: this.authService.getUserEmail(),
     });
     const membersAndAdmin = members;
     const group: Group = {

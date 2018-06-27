@@ -6,8 +6,8 @@
     <li *ngIf="userIsAuthenticated">
         <a mat-button routerLink="/groups/create" routerLinkActive="mat-accent">New Group</a>
     </li>
-    <li *ngIf="userIsAuthenticated">
-      <a mat-button routerLink="/spendings/create" routerLinkActive="mat-accent">New Spending</a>
+    <li *ngIf="userIsAuthenticated && groupIsActive">
+      <a mat-button [routerLink]="['/spendings/create',groupId]" routerLinkActive="mat-accent">New Spending</a>
     </li>
     <li *ngIf="!userIsAuthenticated">
       <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>

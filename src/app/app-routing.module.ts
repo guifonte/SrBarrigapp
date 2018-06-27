@@ -13,9 +13,9 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'groups/create', component: GroupCreateComponent, canActivate: [AuthGuard] },
   { path: 'groups', component: GroupListComponent, canActivate: [AuthGuard] },
-  { path: 'spendings', component: SpendingListComponent, canActivate: [AuthGuard] },
-  { path: 'spendings/create', component: SpendingCreateComponent, canActivate: [AuthGuard] },
-  { path: 'spendings/edit/:spendingId', component: SpendingCreateComponent, canActivate: [AuthGuard] },
+  { path: 'spendings/:groupId', component: SpendingListComponent, canActivate: [AuthGuard] },
+  { path: 'spendings/create/:groupId', component: SpendingCreateComponent, canActivate: [AuthGuard] },
+  { path: 'spendings/edit/:groupId/:spendingId', component: SpendingCreateComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent }
 ];
