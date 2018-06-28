@@ -9,12 +9,17 @@
           {{ spending.date | date:"dd/MM/yyyy 'at' h:mma" }}
         </mat-panel-description>
     </mat-expansion-panel-header>
-    <p>{{ spending.description }}</p>
     <mat-card>
-      <mat-toolbar>
-        Share list
-      </mat-toolbar>
-      <mat-list>
+        <mat-card-subtitle>
+            Description
+        </mat-card-subtitle>
+        <p>{{ spending.description }}</p>
+    </mat-card>
+    <mat-card>
+      <mat-card-subtitle>
+          Share list
+      </mat-card-subtitle>
+      <mat-list dense>
         <mat-list-item *ngFor="let member of spending.shareList">{{ member.firstName }} {{member.lastName}}</mat-list-item>
       </mat-list>
     </mat-card>
