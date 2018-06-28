@@ -52,7 +52,8 @@ export class SpendingsService {
             payerFirstName: spending.payerFirstName,
             payerLastName: spending.payerLastName,
             creatorId: spending.creatorId,
-            groupId: spending.groupId
+            groupId: spending.groupId,
+            shareList: spending.shareList
           };
         });
       }))
@@ -74,13 +75,14 @@ export class SpendingsService {
                           payerFirstName: string,
                           payerLastName: string,
                           creatorId: string,
-                          groupId: string
+                          groupId: string,
+                          shareList: UserData[]
                         }>(
       'http://localhost:3000/api/spendings/' + id
     );
   }
 
-  addSpending(value: number, description: string, idOfGroup: any) {
+  addSpending(value: number, description: string, idOfGroup: any, shareList: UserData[]) {
     const spending: Spending = {
       id: null,
       value: value,
@@ -89,7 +91,8 @@ export class SpendingsService {
       payerLastName: null,
       date: new Date,
       creatorId: null,
-      groupId: idOfGroup
+      groupId: idOfGroup,
+      shareList: shareList
     };
     this.http.post<{ message: string, spendingId: string }>('http://localhost:3000/api/spendings', spending)
       .subscribe(responseData => {
@@ -101,7 +104,7 @@ export class SpendingsService {
       });
   }
 
-  updateSpending(id: string, value: number, description: string, date: Date, idOfGroup: any) {
+  updateSpending(id: string, value: number, description: string, date: Date, idOfGroup: any, shareList: UserData[]) {
     const spending: Spending = {
       id: id,
       value: value,
@@ -110,7 +113,8 @@ export class SpendingsService {
       payerLastName: null,
       date: date,
       creatorId: null,
-      groupId: idOfGroup
+      groupId: idOfGroup,
+      shareList: shareList
     };
     this.http
       .put('http://localhost:3000/api/spendings/' + id, spending)

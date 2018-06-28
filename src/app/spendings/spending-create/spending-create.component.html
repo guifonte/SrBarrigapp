@@ -25,17 +25,17 @@
         #description="ngModel"></textarea>
       <mat-error *ngIf="description.invalid">Please enter a brief description of the spending.</mat-error>
     </mat-form-field>
-      <mat-selection-list #memberList *ngIf="!isLoading">
+      <mat-selection-list #memberList [compareWith]="byId" [(ngModel)]="selectedMembers" [ngModelOptions]="{standalone: true}" *ngIf="!isLoading">
           <mat-toolbar color="primary">
               <p>Share list</p>
               <span class="spacer"></span>
               <ul>
                 <li>
-                    <button mat-button type="button" >Select all</button>
+                    <button mat-button type="button" (click)="memberList.selectAll()">Select all</button>
                 </li>
               </ul>
           </mat-toolbar>
-        <mat-list-option *ngFor="let member of members">
+        <mat-list-option *ngFor="let member of members" [value]="member">
             {{ member.firstName }} {{ member.lastName }}
             <span class="spacer"></span>
             <p class="email">{{ member.email }}</p>

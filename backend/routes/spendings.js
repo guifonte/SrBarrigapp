@@ -13,7 +13,8 @@ router.post("",
     payerLastName: req.userData.lastName,
     date: req.body.date,
     creatorId: req.userData.userId,
-    groupId: req.body.groupId
+    groupId: req.body.groupId,
+    shareList: req.body.shareList
   });
   spending.save().then(createdSpending => {
     res.status(201).json({
@@ -34,7 +35,8 @@ router.put("/:id",
     payerFirstName: req.userData.firstName,
     payerLastName: req.userData.lastName,
     date: req.body.date,
-    creatorId: req.userData.userId
+    creatorId: req.userData.userId,
+    shareList: req.body.shareList
   })
   Spending.updateOne({_id: req.params.id, creatorId: req.userData.userId }, spending).then(result => {
     if (result.nModified > 0){
